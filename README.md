@@ -13,6 +13,6 @@ el uso de los volumenes.
 
 Para borrar los contenedores creados:
 
-### `./clean.sh`
+### `sudo ./clean.sh`
 
 En la carpeta screenshots se encuentra las imagenes de las pruebas realizadas

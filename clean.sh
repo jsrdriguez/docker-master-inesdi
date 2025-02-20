@@ -24,7 +24,11 @@ if ! docker network rm $NAME_NETWORK -f ; then
     return 2
 fi
 
-
+echo "[*] Delete folders volumes"
+if ! rm -rf $PWD/storage ; then
+    echo "Volumes clean"
+    return 2
+fi
 
 
 

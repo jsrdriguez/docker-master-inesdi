@@ -31,7 +31,7 @@ if ! docker run -d --name $NAME_IMAGE_DB \
 fi
 
 echo "[*] Build docker image..."
-if ! docker build -t $NAME_IMAGE_DOCKER:$VERSION ./app ; then
+if ! docker build -t $NAME_IMAGE_DOCKER:$VERSION $PWD/app ; then
     echo "Failed creation container db $1"
     return 1
 fi
