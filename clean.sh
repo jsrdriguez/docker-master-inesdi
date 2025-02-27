@@ -6,15 +6,9 @@ else
   exit 1
 fi
 
-echo "[*] Delete containers: $NAME_IMAGE_DB $NAME_IMAGE_APP"
-if ! docker rm $NAME_IMAGE_DB $NAME_IMAGE_APP -f ; then
+echo "[*] Container services down"
+if ! docker-compose down --remove-orphans --rmi local --volumes; then
     echo "Docker clean"
-    return 2
-fi
-
-echo "[*] Delete images"
-if ! docker image rm -f $(docker images | grep "inesdi/blog" | awk '{print $3}') -f ; then
-    echo "Images clean"
     return 2
 fi
 
@@ -25,7 +19,7 @@ if ! docker network rm $NAME_NETWORK -f ; then
 fi
 
 echo "[*] Delete folders volumes"
-if ! rm -rf $PWD/storage ; then
+if ! rm -rf $PWD/volume* ; then
     echo "Volumes clean"
     return 2
 fi

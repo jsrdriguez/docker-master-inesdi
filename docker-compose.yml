@@ -1,0 +1,44 @@
+version: "3.8"
+
+services:
+  db:
+    container_name: ${NAME_IMAGE_DB}
+    image: mysql:9.2.0
+    ports:
+      - ${DB_PORT_SHARED}:${DB_PORT}
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+    restart: always
+    networks:
+      - inesdi
+    volumes:
+      - $PWD/start.sql:/docker-entrypoint-initdb.d/start.sql
+      - $PWD/volume-data:/var/lib/mysql
+    
+  api:
+    container_name: ${NAME_IMAGE_APP}
+    image: ${NAME_IMAGE_DOCKER}:${VERSION}
+    pull_policy: build
+    build:
+      context: ./app
+      dockerfile: Dockerfile      
+    ports:
+      - ${APP_PORT}:3000
+    environment:
+      DB_HOST: ${DB_HOST} 
+      DB_USERNAME: ${DB_USERNAME} 
+      DB_PASSWORD: ${DB_PASSWORD} 
+      DB_NAME: ${DB_NAME} 
+      DB_PORT: ${DB_PORT}
+    restart: always
+    volumes:
+      - $PWD/volume-app:/app/storage/articles
+    depends_on:
+      - db
+    networks:
+      - inesdi
+
+networks:
+  inesdi:
+    name: ${NAME_NETWORK}
