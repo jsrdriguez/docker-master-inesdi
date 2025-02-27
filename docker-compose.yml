@@ -13,7 +13,7 @@ services:
     networks:
       - inesdi
     volumes:
-      - $PWD/start.sql:/docker-entrypoint-initdb.d/start.sql
+      - $PWD/db/start.sql:/docker-entrypoint-initdb.d/start.sql
       - $PWD/volume-data:/var/lib/mysql
     
   api:
